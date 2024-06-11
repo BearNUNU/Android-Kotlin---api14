@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FirstScreen() {
+fun FirstScreen(navigationToSecondScreen:(String)->Unit) {
     val name = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -30,7 +30,7 @@ fun FirstScreen() {
         Text(text = "첫페이지", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(value =name.value , onValueChange = {name.value = it} )
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { navigationToSecondScreen(name.value)}) {
             Text(text = "둘째페이지로")
 
         }

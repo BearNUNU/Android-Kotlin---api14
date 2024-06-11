@@ -22,6 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.navigationsample.ui.theme.NavigationSampleTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,17 +38,34 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    MyApp()
                 }
             }
         }
     }
 }
 
-
+@Composable
+fun MyApp (){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "firstScreen"){
+        composable("firstScreen"){
+            FirstScreen {name ->
+                navController.navigate("secondScreen/$name")
+            }
+        }
+        composable("secondScreen/{name}"){
+            val name = it.arguments?.getString("name") ?: "no name"
+            SecondScreen(name) {
+                navController.navigate("firstScreen")
+            }
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
 @Composable
 fun FirstPreivew(){
- FirstScreen()
+ FirstScreen({})
 }
